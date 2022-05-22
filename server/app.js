@@ -70,8 +70,19 @@ app.post("/register", (req, res) => {
             }
             return res.status(500).json("Something went wrong, please try again.");
           }
-              
-            res.status(200).json("User registered!");
+            // Assign the result to a variable
+            const id = result.insertId;
+
+            // If everything is ok, create a token and send it back
+            const token = jwt.sign({ id: id }, jwtSecret, {
+              expiresIn: "1h",
+            })
+            //req.session.userId = user.id;
+            res.status(200).json({ 
+              message: "User registered successfully",
+              isAuthorized: true,
+              token: token 
+            });
             
         }
     );
