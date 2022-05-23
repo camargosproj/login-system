@@ -5,7 +5,7 @@ This project is just for practice purposes, I'm still working on it.
 ## Tech used:
 ### Frontend: 
 * [React](https://reactjs.org/)
-* [CSS]()
+* [CSS](https://www.w3.org/Style/CSS/Overview.en.html)
 ### Backend: 
 * [Node.js](https://nodejs.org/)
 * [Express](https://expressjs.org/)
@@ -13,7 +13,7 @@ This project is just for practice purposes, I'm still working on it.
 * [JWT](https://jwt.io/)
 * [bcrypt](https://www.npmjs.com/package/bcrypt)
 
-![Login](preview%5CAnimation.gif)
+![Login](preview/Animation.gif)
 
 
 ## Run the app in localhost
