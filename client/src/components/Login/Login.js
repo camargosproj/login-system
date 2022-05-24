@@ -1,13 +1,13 @@
 import authService from "../../services/auth";
-import "./Login.css";
 import React, { useState } from "react";
 import {useNavigate} from "react-router-dom"
+import "./Login.css";
 
 const Login = () => {
     const [registerLayout, setRegisterLayout] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     // Change title
     document.title = "Login";  
@@ -95,7 +95,7 @@ const Login = () => {
                     </div> 
                 ) : (
                     <div className="button-container login-btn">                    
-                        <button onClick={handleRegister} type="submit"><i className="fa-solid fa-paper-plane"></i>Register</button>
+                        <button onClick={handleRegister} type="submit"><i className="fa-solid fa-circle-user"></i>Register</button>
                     </div>
                 )}
                 
