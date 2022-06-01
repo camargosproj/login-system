@@ -1,10 +1,10 @@
-import NavBar from "../../components/Navbar/NavBar";
 import authService from "../../services/auth";
 import {useNavigate} from "react-router-dom"
-import "./Home.css";
+import "./NavBar.css";
+import { Link } from "react-router-dom";
 
+const NavBar = () => {
 
-const Home = () => {
     const navigate = useNavigate();
 
     const checkTokenState = () => {
@@ -33,24 +33,24 @@ const Home = () => {
         authService.logout();
         navigate("/");
     }
-
     return ( 
-        <div className="home">
-            <NavBar/>
-            <div className="home-wrapper">
-                <div className="home-container">
-                    <h4>You logged in successfully!</h4>
-                    <div className="button-container login-btn">                    
-                        <button onClick={checkTokenState} type="submit">Verify Token</button>
-                    </div>
-                    <div className="button-container login-btn">                    
-                        <button onClick={logout} type="submit">Logout</button>
-                    </div>
-                </div>
+        <nav className="navbar-container">
+            <div className="nav-wrapper">
+                <div className="logo">LOGO</div>
+                <ul className="nav-list">
+                    <li><Link to="/home">Home</Link></li>
+                    <li><Link to="/blog">Blog</Link></li>
+                    <li>                    
+                        <button className="btn" onClick={checkTokenState} type="submit">Verify Token</button>
+                    </li>
+                    <li>                    
+                        <button className="btn" onClick={logout} type="submit">Logout</button>
+                    </li>
+                </ul>
             </div>
-        </div>
-    );
 
+        </nav>
+     );
 }
  
-export default Home;
+export default NavBar;
