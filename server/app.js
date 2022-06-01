@@ -1,6 +1,6 @@
-const {verifyAuth} = require("./midlewares/verifyAuth");
+const {verifyAuth} = require("./middlewares/verifyAuth");
 const {authRouter} = require("./routes/authRoute");
-const { errorHandler } = require("./midlewares/errorHandler");
+const { errorHandler } = require("./middlewares/errorHandler");
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
