@@ -1,6 +1,7 @@
 import authService from "../../services/auth";
 import React, { useState } from "react";
 import {useNavigate} from "react-router-dom"
+import ModalError from "../modalError/ModalError";
 import "./Login.css";
 
 const Login = () => {
@@ -8,7 +9,10 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
+
     // Change title
     document.title = "Login";  
 
@@ -22,10 +26,12 @@ const Login = () => {
                 navigate("/home");
             }
             else{
-                alert("Login failed!");
+                setShowModal(true);
+                setErrorMessage("Login failed!");
             }
         }catch(e){
-            console.log(e);
+            setShowModal(true);
+            setErrorMessage(e.response.data.message);
         }
       }
     const handleRegister = async (e) => {
@@ -34,21 +40,26 @@ const Login = () => {
                 if (username.length > 0 && password.length > 0){
                     const response = await authService.register(username, password);
                     if (response.status === 200){
-                        alert("Register successful!");
+                        alert("Registered successfully!");
+                        navigate("/home");
                     }
                     else{
-                        alert("Register failed!");
+                        setErrorMessage("Register failed!");
                     }
                 }else{
-                    alert("Please enter username and password!");
+                    setShowModal(true);
+                    setErrorMessage("Please enter username and password!");
                 }
                   
             }catch(e){
-                alert(e.response.data);
+                setShowModal(true);
+                setErrorMessage(e.response.data.message);
             }
     }
 
     return ( 
+        <>
+        {showModal && <ModalError errorMessage={errorMessage}/>}
         <div className="container">
         <div className="login-container">
             <div className="right-container">
@@ -101,9 +112,9 @@ const Login = () => {
                 )}
                 
             </form>
+        </div>              
         </div>
-              
-        </div>
+        </>
     );
 }
  
