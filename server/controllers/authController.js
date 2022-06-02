@@ -50,6 +50,12 @@ const userRegister =  (req, res, next) => {
     // Get data from request
     const { username, password } = req.body;
 
+    // Check if username and password are provided
+    if (!username || !password) {
+        return res.status(400).json({
+            message: "Please provide username and password!"
+        });
+    }
     // Hash the password
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
 
