@@ -17,7 +17,7 @@ const NavBar = () => {
                     }
                     else {
                         authService.logout();
-                        alert("User uthorized")
+                        alert("User authorized")
                     }
                 })
                 .catch(error => {
