@@ -8,41 +8,50 @@ const saltRounds = 10;
 
 
 
-const userLogin = async (req, res) => {
+const userLogin = async (req, res, next) => {
     // Get data from request
     const { username, password } = req.body;
 
+    // Check if username and password are provided
+    if (!username || !password) {
+        return res.status(404).json({status: 404, message : "Please provide username and password!"});
+    }
+
     // Get the user from the database
-    const user = await getUser(username);
-    if (user) {
-        // Assign the result to a variable
-        //const user = result[0];
-
-        // Check if password is correct
-        const passwordIsValid = bcrypt.compareSync(
-            password,
-            user.password
-        );
-
-        // If password is not valid, return 401
-        if (!passwordIsValid) {
-            return res.status(401).json("Wrong password!");
-        }              
-        
-        // If everything is ok, create a token and send it back
-        const token = jwt.sign({ id: user.id }, jwtSecret, {
-          expiresIn: "1h",
-        })
-        //req.session.userId = user.id;
-        res.status(200).json({ 
-          isAuthorized: true,
-          token: token 
-        });
-    } else {
-        res.status(401).json({
-          isAuthorized: false,
-          message: "User not found!"
-        });
+    try{
+        const user = await getUser(username);
+        if (user) {
+            // Assign the result to a variable
+            //const user = result[0];
+    
+            // Check if password is correct
+            const passwordIsValid = bcrypt.compareSync(
+                password,
+                user.password
+            );
+    
+            // If password is not valid, return 401
+            if (!passwordIsValid) {
+                return res.status(400).json({message : "Wrong password!"});
+            }              
+            
+            // If everything is ok, create a token and send it back
+            const token = jwt.sign({ id: user.id }, jwtSecret, {
+              expiresIn: "1h",
+            })
+            //req.session.userId = user.id;
+            res.status(200).json({ 
+              isAuthorized: true,
+              token: token 
+            });
+        } else {
+            res.status(401).json({
+              isAuthorized: false,
+              message: "User not found!"
+            });
+        }
+    }catch(err){
+        next(err);
     }
 }
 
@@ -52,9 +61,7 @@ const userRegister =  (req, res, next) => {
 
     // Check if username and password are provided
     if (!username || !password) {
-        return res.status(400).json({
-            message: "Please provide username and password!"
-        });
+        return res.status(404).json({status: 404, message : "Please provide username and password!"});
     }
     // Hash the password
     const hashedPassword = bcrypt.hashSync(password, saltRounds);

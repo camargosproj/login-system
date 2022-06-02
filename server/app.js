@@ -8,7 +8,6 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const { blogRoute } = require("./routes/blogRoute");
 
-
 const app = express();
 
 // Built-in middlewares
@@ -17,11 +16,14 @@ app.use(cors());
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-
-
-
 // Routes
 app.use(authRouter);
+
+app.get('/checkUser', (req, res) => {
+    res.json({
+        message: "User is authenticated"
+    })
+  });
 
 
 app.use(verifyAuth);
@@ -34,11 +36,6 @@ app.get("*", (req, res) => {
 });
 
 
-app.get('/checkUser', (req, res) => {
-  res.json({
-      message: "User is authenticated"
-  })
-});
 
 // Error handling
 app.use(errorHandler);

@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const {jwtSecret} = require("../config/envConfig");
 
 const verifyAuth = (req, res, next) => {
-    console.log(req.body);
     const token = req.headers.authorization;
     if (token) {
       jwt.verify(token, jwtSecret, (err, decoded) => {

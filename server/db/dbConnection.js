@@ -26,8 +26,8 @@ const getUser = (username) => {
                const user = result[0];
                resolve(user);
            }else{
-               console.log("User not found!");
-               resolve(result);           
+               //console.log("User not found!");
+               reject({status: 404, message: "User not found!"});           
            }
        });
     });
