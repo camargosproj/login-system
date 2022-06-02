@@ -1,6 +1,7 @@
 const {verifyAuth} = require("./middlewares/verifyAuth");
 const {authRouter} = require("./routes/authRoute");
 const { errorHandler } = require("./middlewares/errorHandler");
+const {port} = require("./config/envConfig");
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -42,7 +43,6 @@ app.get('/checkUser', (req, res) => {
 // Error handling
 app.use(errorHandler);
 
-const PORT = 4000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
   });
