@@ -1,7 +1,6 @@
-import React from 'react';
-import "./ModalError.css";
+import "./Modal.css";
 
-const ModalError = ({errorMessage}) => {
+const Modal = ({errorMessage}) => {
     return (
         <div className='modal-container'>
             <i className="fa-solid fa-triangle-exclamation"></i>
@@ -10,4 +9,4 @@ const ModalError = ({errorMessage}) => {
     );
 }
 
-export default ModalError;
+export default Modal;

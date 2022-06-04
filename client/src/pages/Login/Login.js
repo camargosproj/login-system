@@ -1,28 +1,44 @@
 import authService from "../../services/auth";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {useNavigate} from "react-router-dom"
-import ModalError from "../modalError/ModalError";
+import Modal from "../../components/Modal/Modal";
 import "./Login.css";
 
 const Login = () => {
     const [registerLayout, setRegisterLayout] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
-
+    
     // Change title
     document.title = "Login";  
 
+    const handleLoading = async () => {
+        try{
+            const user = authService.getAuthUser();
+            if(user) {
+                const validation = await authService.checkLogin(user.token);
+                if(validation.status === 200) {
+                    navigate("/home");
+                }
+            }
+        }catch(err){
+            authService.logout();
+        }
+    }
+
+    useEffect(() => {
+        handleLoading();
+    }, []);
 
     const handleLogin = async(e) => {
         e.preventDefault();
         try{
             const response = await authService.login(username,password);
             if (response.status === 200){
-                alert("Login successful!");
                 navigate("/home");
             }
             else{
@@ -40,7 +56,6 @@ const Login = () => {
                 if (username.length > 0 && password.length > 0){
                     const response = await authService.register(username, password);
                     if (response.status === 200){
-                        alert("Registered successfully!");
                         navigate("/home");
                     }
                     else{
@@ -58,15 +73,14 @@ const Login = () => {
     }
 
     return ( 
-        <>
-        {showModal && <ModalError errorMessage={errorMessage}/>}
-        <div className="container">
+        <div className="login-page">
+        {showModal && <Modal errorMessage={errorMessage}/>}
         <div className="login-container">
+        <div className="login-wrapper">
             <div className="right-container">
                 <h1>Welcome</h1>
                 {!registerLayout ? <p>Login now to get new info!</p> : <p>Create your account in no time!</p>}
                 <span>OR</span>
-                {/* The way i found to render this, might be a little bit tricky, but it works! I'll try another way to do it differently */}
                 {!registerLayout
                 ?   (<div className="button-container register-btn">                    
                         <button onClick={() => { setRegisterLayout(!registerLayout)}} type="submit"><i className="fa-solid fa-circle-user"></i>Register</button>
@@ -114,7 +128,7 @@ const Login = () => {
             </form>
         </div>              
         </div>
-        </>
+        </div>
     );
 }
  

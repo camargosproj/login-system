@@ -1,6 +1,8 @@
+import "./Blog.css";
+
 const Blog = () => {
     return ( 
-        <div>You are on the Blog page</div>
+        <div className="blog-page">You are on the Blog page</div>
      );
 }
  
