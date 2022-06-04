@@ -19,14 +19,15 @@ app.use(morgan("dev"));
 // Routes
 app.use(authRouter);
 
+
+app.use(verifyAuth);
+
 app.get('/checkUser', (req, res) => {
     res.json({
         message: "User is authenticated"
     })
-  });
+});
 
-
-app.use(verifyAuth);
 app.use(blogRoute);
 
 app.get("*", (req, res) => {
